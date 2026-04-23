@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIDO-Verify | Ankhor Tools</title>
+  <meta
+    name="description"
+    content="Lookup FIDO2 authenticator metadata by AAGUID using the official FIDO MDS3 registry."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="tool-shell">
+    <div class="container">
+      <div class="page-nav">
+        <a class="home-link" href="../"><img class="home-link-icon" src="../resources/arrow-circle-left.svg" alt=""><span>Back to Ankhor Tools</span></a>
+      </div>
+
+      <header class="top-bar">
+        <div class="title-block">
+          <h1>FIDO-Verify</h1>
+          <p class="subtitle">
+            Retrieve the AAGUID from a FIDO2 authenticator, look up the matching official metadata entry, and compare it with the public certification references.
+          </p>
+        </div>
+        <div class="tool-logo">
+          <img src="../resources/logo.png" alt="Ankhor logo">
+        </div>
+      </header>
+
+      <main class="main-layout">
+        <aside class="left-side">
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Lookup</h2>
+            </div>
+
+            <div class="control-card">
+              <button id="read-key-btn" type="button">Read from Security Key</button>
+            </div>
+
+            <div class="control-card">
+              <label for="aaguid-input">AAGUID</label>
+              <input
+                id="aaguid-input"
+                type="text"
+                inputmode="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+              >
+              <div class="button-row">
+                <button id="lookup-btn" type="button">Lookup Metadata</button>
+                <button id="refresh-btn" class="secondary" type="button">Refresh MDS</button>
+              </div>
+              <p class="hint">
+                Official metadata source: the public FIDO MDS3 BLOB.
+              </p>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <h2>Official References</h2>
+            </div>
+            <div class="link-stack">
+              <a href="https://learn.microsoft.com/en-us/entra/identity/authentication/concept-fido2-hardware-vendor" target="_blank" rel="noopener noreferrer">Microsoft Entra Vendor List</a>
+              <a href="https://mds3.fidoalliance.org/" target="_blank" rel="noopener noreferrer">FIDO MDS3 BLOB</a>
+              <a href="https://fidoalliance.org/certification/fido-certified-products/" target="_blank" rel="noopener noreferrer">FIDO Certified Products Directory</a>
+              <a href="https://fidoalliance.org/metadata-service-terms" target="_blank" rel="noopener noreferrer">FIDO Metadata Service Overview</a>
+              <a href="https://opotonniee.github.io/fido-mds-explorer/" target="_blank" rel="noopener noreferrer">FIDO MDS Explorer</a>
+              <a href="https://opotonniee.github.io/fido-mds-explorer/convenience.html" target="_blank" rel="noopener noreferrer">Convenience MDS Explorer</a>
+              <a href="https://raw.githubusercontent.com/opotonniee/fido-mds-explorer/main/mds.blob" target="_blank" rel="noopener noreferrer">MDS Mirror Blob</a>
+            </div>
+          </section>
+        </aside>
+
+        <section class="right-side">
+          <div class="status-row">
+            <span id="status-pill" class="pill pill-idle">Idle</span>
+            <p id="source-line" class="source-line">Waiting for a lookup.</p>
+          </div>
+
+          <section id="result-panel" class="panel result-panel">
+            <div class="empty-state">
+              <h2>No Metadata Loaded</h2>
+              <p>
+                Read a security key or paste an AAGUID to retrieve the matching metadata entry from the official FIDO MDS3 registry.
+              </p>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <footer class="tool-footer">
+      <p>Copyright IIST Inc. 2026</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
