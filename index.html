@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ankhor Tools</title>
+  <meta
+    name="description"
+    content="Ankhor Tools is a browser-based utility site for compatible IIST / Ankhor devices."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Browser-Based Utilities</p>
+        <h1>Ankhor Tools</h1>
+      </div>
+      <div class="site-logo">
+        <img src="resources/logo.png" alt="Ankhor logo">
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section-heading">
+          <h2>Compatible Devices</h2>
+        </div>
+
+        <div class="compat-list" aria-label="Compatible devices">
+          <span class="compat-item">Ankhor Key</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="tool-grid">
+          <a class="tool-card is-active" href="product-verification/">
+            <div class="tool-card-header">
+              <h3>Product Verification</h3>
+            </div>
+            <p>
+              Connect to a compatible device, confirm connection status, read device info, and request TRNG output.
+            </p>
+            <span class="tool-link">Open tool</span>
+          </a>
+
+          <a
+            class="tool-card is-active"
+            href="https://webauthn.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="tool-card-header">
+              <h3>FIDO2 Check</h3>
+            </div>
+            <p>
+              Open <b>webauthn.io</b> for FIDO2 and WebAuthn registration and authentication testing.
+            </p>
+            <span class="tool-link">Open site</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Copyright IIST Inc. 2026</p>
+    </footer>
+  </div>
+</body>
+</html>

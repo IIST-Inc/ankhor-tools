@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Verification | Ankhor Tools</title>
+  <meta
+    name="description"
+    content="Minimal product verification tool for compatible Ankhor devices."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="tool-shell">
+    <div class="container">
+      <div class="page-nav">
+        <a class="home-link" href="../"><img class="home-link-icon" src="../resources/arrow-circle-left.svg" alt=""><span>Back to Ankhor Tools</span></a>
+      </div>
+      <header class="top-bar">
+        <div class="title-block">
+          <h1>Product Verification</h1>
+        </div>
+        <div class="tool-logo">
+          <img src="../resources/logo.png" alt="Ankhor logo">
+        </div>
+      </header>
+
+      <section class="right-side right-side-single">
+        <div class="terminal-controls">
+          <div class="controls">
+            <button id="connect-btn" type="button">Connect</button>
+            <button id="disconnect-btn" type="button" disabled>Disconnect</button>
+            <button id="info-btn" type="button" disabled>Get Info</button>
+            <button id="trng-btn" type="button" disabled>TRNG</button>
+          </div>
+          <div class="controls-meta">
+            <label class="filter-toggle" for="filter-checkbox">
+              <input id="filter-checkbox" type="checkbox" checked>
+              <span>Enable Filter</span>
+            </label>
+            <span id="status-pill" class="pill pill-off">Disconnected</span>
+          </div>
+        </div>
+
+        <textarea id="output" class="output simple-output" readonly spellcheck="false"></textarea>
+      </section>
+    </div>
+
+    <footer class="tool-footer">
+      <p>Copyright IIST Inc. 2026</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
