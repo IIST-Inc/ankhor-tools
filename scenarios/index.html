@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Can I Do With Ankhor Key Plus? | Ankhor Tools</title>
+  <meta
+    name="description"
+    content="Application scenarios for Ankhor Key Plus functions on compatible IIST / Ankhor devices."
+  >
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="site-shell tool-page">
+    <a class="back-link" href="../">Back to Ankhor Tools</a>
+
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Application Guide</p>
+        <h1>What Can I Do With Ankhor Key Plus?</h1>
+        <p class="subtitle">
+          Choose your use case. Each scenario shows the Ankhor function area, suggested commands, integration idea, and where IIST can provide implementation support.
+        </p>
+      </div>
+      <div class="site-logo">
+        <img src="../resources/logo.png" alt="Ankhor logo">
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <figure class="hero-visual">
+          <img src="../resources/scenario-overview.png" alt="Overview illustration of Ankhor functions connected to application workflows">
+        </figure>
+        <div class="section-heading">
+          <h2>Overview</h2>
+          <p>
+            Ankhor Key Plus provides a fixed set of hardware-rooted application security functions. It is not an unlimited custom firmware product by default. Users can use the provided CLI/API functions directly, or request IIST integration support for production deployment.
+          </p>
+        </div>
+        <div class="callout">
+          <strong>Need this implemented in your product?</strong>
+          <p>Contact IIST for integration support, provisioning scripts, user-specific demos, or production workflow design.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Common Preparation</h2>
+          <p>
+            Many protected operations require the same setup flow. Scenario sections focus on the business function commands, while mode selection and activation are common preparation steps.
+          </p>
+        </div>
+        <pre><code>ports
+open &lt;PORT&gt;
+info
+secure
+change-mode &lt;akm|pm|otp|byo&gt;
+activate &lt;PIN&gt;
+
+First-time provisioning only:
+set-pin &lt;PIN&gt;
+
+Useful state checks:
+check-mode
+is-activated
+pin-status
+
+Cleanup:
+deactivate
+quit</code></pre>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Scenario Visual Guide</h2>
+          <p>These placeholder illustrations group the cookbook into practical integration areas. They are safe to replace later with detailed product diagrams.</p>
+        </div>
+        <div class="visual-grid">
+          <article class="visual-card">
+            <img src="../resources/scenario-credentials.png" alt="Credential storage workflow illustration">
+            <h3>Credentials and OTP</h3>
+            <p>Database passwords, cloud API keys, and hardware-protected OTP records.</p>
+          </article>
+          <article class="visual-card">
+            <img src="../resources/scenario-data-protection.png" alt="Local data protection workflow illustration">
+            <h3>Local Data Protection</h3>
+            <p>Configuration encryption, database key wrapping, device-bound data, and local secrets.</p>
+          </article>
+          <article class="visual-card">
+            <img src="../resources/scenario-signing.png" alt="Signing and verification workflow illustration">
+            <h3>Signing and Verification</h3>
+            <p>Telemetry, logs, AI output, content authenticity signing support, and local verification.</p>
+          </article>
+          <article class="visual-card">
+            <img src="../resources/scenario-pairing.png" alt="Device pairing and encrypted communication workflow illustration">
+            <h3>Pairing and Payloads</h3>
+            <p>Gateway-to-sensor pairing and encrypted communication between paired devices.</p>
+          </article>
+          <article class="visual-card">
+            <img src="../resources/scenario-lifecycle.png" alt="Provisioning and lifecycle support workflow illustration">
+            <h3>Lifecycle and Support</h3>
+            <p>Mode control, activation, deletion, reset, device information, TRNG, and debug workflows.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Scenario Cookbook</h2>
+          <p>Each entry starts from a user goal and maps it to concrete Ankhor function areas.</p>
+        </div>
+
+        <div class="scenario-list">
+          <details class="scenario-card" open>
+            <summary>
+              <span class="menu-number">01</span>
+              <span>I want users to log in without passwords</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>Standard FIDO2 / WebAuthn authentication.</dd>
+              <dt>Important</dt>
+              <dd>This scenario only explains the use case. For browser-level registration and authentication trials, use the external WebAuthn.io link on the homepage.</dd>
+              <dt>Problem</dt>
+              <dd>Users still rely on passwords that can be reused, phished, leaked, or stolen.</dd>
+              <dt>Typical deployment</dt>
+              <dd>Web app login, VPN login, admin dashboard login, enterprise identity provider login.</dd>
+              <dt>Use these functions</dt>
+              <dd>Register the Ankhor key as a compatible authenticator in the user authentication platform.</dd>
+              <dt>Suggested integration</dt>
+              <dd>Register the Ankhor key as a FIDO-compatible authenticator in the user's existing authentication platform.</dd>
+              <dt>User work</dt>
+              <dd>Use an existing FIDO/WebAuthn-compatible platform.</dd>
+              <dt>IIST optional service</dt>
+              <dd>IIST can support user demo setup and authentication workflow discussion.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">02</span>
+              <span>I want to protect database passwords on a gateway or server</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>PM Credential Storage.</dd>
+              <dt>Problem</dt>
+              <dd>Database passwords are often stored in config files, environment variables, startup scripts, or source code.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>pm add -t "database" -n "main-db" --password "&lt;DB_PASSWORD&gt;"
+pm get -t "database" -n "main-db"
+pm del -t "database" -n "main-db"</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Application retrieves the database password from Ankhor during startup instead of reading plaintext config.</dd>
+              <dt>User work</dt>
+              <dd>Modify application startup or backend code to request the credential from Ankhor.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Linux/OpenWrt startup script integration, Python/C examples, provisioning scripts.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">03</span>
+              <span>I want to protect cloud API keys</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>AKM API Key Manager.</dd>
+              <dt>Problem</dt>
+              <dd>Cloud API keys are often hardcoded or stored in plaintext files.</dd>
+              <dt>Typical deployment</dt>
+              <dd>MQTT credentials, AI service keys, AWS/Azure/GCP tokens, partner service keys.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>akm add -t "cloud-api" --key "&lt;API_KEY&gt;"
+akm get -t "cloud-api"
+akm del -t "cloud-api"
+akm list</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Store the key once during provisioning. At runtime, retrieve only when the application needs it.</dd>
+              <dt>User work</dt>
+              <dd>Replace plaintext API key loading with Ankhor retrieval.</dd>
+              <dt>IIST optional service</dt>
+              <dd>API key provisioning tools and service wrappers.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">04</span>
+              <span>I want hardware-protected OTP/TOTP codes</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>OTP Manager.</dd>
+              <dt>Problem</dt>
+              <dd>TOTP secrets should not be stored in normal software storage.</dd>
+              <dt>Typical deployment</dt>
+              <dd>VPN login, admin dashboard login, maintenance account MFA.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>otp add --len 6 --ts 30 -t "vpn" -n "admin" --secret "AA BB CC ..."
+otp get -t "vpn" -n "admin"
+otp del -t "vpn" -n "admin"
+otp list</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Store TOTP secret in Ankhor. Generate code from device when needed.</dd>
+              <dt>User work</dt>
+              <dd>Provision the OTP secret and define who can request generated codes.</dd>
+              <dt>IIST optional service</dt>
+              <dd>OTP enrollment scripts and operator instructions.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">05</span>
+              <span>I want to encrypt local configuration data</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Edge-Key Encryption.</dd>
+              <dt>Problem</dt>
+              <dd>Local configuration may contain sensitive addresses, credentials, tokens, device IDs, or policy data.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo edge-enc --pt &lt;Hex32&gt;
+byo edge-dec --ct &lt;Hex32&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Application encrypts sensitive config blocks before storing them.</dd>
+              <dt>User work</dt>
+              <dd>Package sensitive values into 32-byte blocks or use an application-side wrapper.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Config encryption wrapper or Linux/OpenWrt helper.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">06</span>
+              <span>I want to protect a local SQLite database or local database key</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Edge-Key Encryption.</dd>
+              <dt>Problem</dt>
+              <dd>Edge devices often store local SQLite/cache databases that may be exposed if copied.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo edge-enc --pt &lt;Hex32&gt;
+byo edge-dec --ct &lt;Hex32&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use Ankhor to protect/wrap the local database encryption key.</dd>
+              <dt>User work</dt>
+              <dd>Integrate Ankhor into database startup or unlock process.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Database key wrapping examples.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">07</span>
+              <span>I want to sign telemetry data</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Signing.</dd>
+              <dt>Problem</dt>
+              <dd>Telemetry can be forged or modified without device-side signatures.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo sign-gen --idx 0
+byo sign --idx 0 --msg &lt;Hex32&gt;
+byo get-verify-key --idx 0</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Generate a signing key inside Ankhor, register public verification key with backend, hash telemetry in software, sign 32-byte hash, backend verifies.</dd>
+              <dt>User work</dt>
+              <dd>Add hashing and signature attachment to telemetry protocol.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Signing flow examples and backend verification samples.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">08</span>
+              <span>I want to sign system logs</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Signing.</dd>
+              <dt>Problem</dt>
+              <dd>Logs can be modified after collection.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo sign-gen --idx 0
+byo sign --idx 0 --msg &lt;Hex32&gt;
+byo get-verify-key --idx 0</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Hash each log entry or log batch and sign the hash with Ankhor.</dd>
+              <dt>User work</dt>
+              <dd>Choose entry-level, file-level, or batch-level signing.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Signed log format and verification scripts.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">09</span>
+              <span>I want to sign AI-generated outputs</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Signing.</dd>
+              <dt>Problem</dt>
+              <dd>AI outputs may need proof of origin.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo sign --idx 0 --msg &lt;Hex32&gt;
+byo get-verify-key --idx 0</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Software generates AI output, hashes final content, Ankhor signs the 32-byte hash.</dd>
+              <dt>User work</dt>
+              <dd>Add hashing, signature storage, and verification metadata.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Simple signed-output format.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">10</span>
+              <span>I want to support C2PA or content authenticity</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Signing.</dd>
+              <dt>Problem</dt>
+              <dd>C2PA-like authenticity workflows need secure signing keys.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo sign-gen --idx 0
+byo sign --idx 0 --msg &lt;Hex32&gt;
+byo get-verify-key --idx 0</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Software handles manifest/claim/hash/packaging. Ankhor protects private signing key and signs the 32-byte hash.</dd>
+              <dt>User work</dt>
+              <dd>Connect the C2PA or content authenticity signing step to Ankhor signing.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Signing adapter, demo flow, integration support.</dd>
+              <dt>Important</dt>
+              <dd>Use "C2PA-like" or "content authenticity signing support" where appropriate.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">11</span>
+              <span>I want secure pairing between a gateway and a sensor</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Pairing.</dd>
+              <dt>Problem</dt>
+              <dd>Gateway and sensor need trust establishment without plaintext shared secrets.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo pair-init
+byo pair --idx 0 --peer &lt;Hex64&gt;
+byo status</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use pair-init to exchange public key, then pair with peer public key into a shared slot.</dd>
+              <dt>User work</dt>
+              <dd>Define exchange method: QR code, local network, USB, NFC, or provisioning server.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Pairing workflow design and reference scripts.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">12</span>
+              <span>I want encrypted communication between paired devices</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Shared-Slot Encryption.</dd>
+              <dt>Problem</dt>
+              <dd>Two paired devices need to encrypt sensitive payloads without exposing shared keys.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo set-iv --iv &lt;Hex16&gt;
+byo enc --idx 0 --pt &lt;Hex32&gt;
+byo dec --idx 0 --ct &lt;Hex32&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>After pairing, use shared-key slot to encrypt/decrypt 32-byte payload blocks.</dd>
+              <dt>User work</dt>
+              <dd>Define message format, IV handling, and payload packaging.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Protocol wrapper examples.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">13</span>
+              <span>I want data to be readable only on the original device</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Device-Bound Edge Encryption.</dd>
+              <dt>Problem</dt>
+              <dd>Some data should not decrypt if copied to another device.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo edge-enc --pt &lt;Hex32&gt;
+byo edge-dec --ct &lt;Hex32&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use edge-key encryption for device-bound data.</dd>
+              <dt>User work</dt>
+              <dd>Define which data should be device-bound and how it is packaged.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Device-bound data protection examples.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">14</span>
+              <span>I want to store small local secret blobs</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Local Secret Storage.</dd>
+              <dt>Problem</dt>
+              <dd>Applications may need small secret slots for recovery keys, provisioning data, or internal secrets.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo secret-status
+byo save --idx 0 --data &lt;Hex&gt;
+byo read --idx 0
+byo del-secret --idx 0</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Store small secret blobs in BYO local secret slots.</dd>
+              <dt>User work</dt>
+              <dd>Define slot policy and access control.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Provisioning and recovery workflows.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">15</span>
+              <span>I want to securely remove old secrets</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>Lifecycle / Delete Functions.</dd>
+              <dt>Problem</dt>
+              <dd>Old API keys, passwords, OTP records, pairing slots, signing keys, and local secrets must be removed when no longer valid.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>akm del -t "&lt;TITLE&gt;"
+pm del -t "&lt;TITLE&gt;" -n "&lt;NAME&gt;"
+otp del -t "&lt;TITLE&gt;" -n "&lt;NAME&gt;"
+byo del --idx &lt;0..7&gt;
+byo del-secret --idx &lt;0..3&gt;
+byo sign-del --idx &lt;0..7&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Create lifecycle scripts for delete/reprovision flows.</dd>
+              <dt>User work</dt>
+              <dd>Define deletion and recovery policy.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Provisioning and deprovisioning scripts.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">16</span>
+              <span>I want deterministic key derivation from an application seed</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Deterministic Derivation.</dd>
+              <dt>Problem</dt>
+              <dd>Some applications need repeatable key material from a known seed.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo get-key --seed &lt;ASCII&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Host provides seed string, Ankhor derives deterministic key material.</dd>
+              <dt>User work</dt>
+              <dd>Define seed format and security policy.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Safe derivation usage design.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">17</span>
+              <span>I want to verify signatures locally</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>BYO Verify.</dd>
+              <dt>Problem</dt>
+              <dd>Device/application may need to verify that a message was signed by expected key.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>byo verify --idx 0 --msg &lt;Hex32&gt; --sig &lt;Hex64&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use Ankhor verification where local validation is needed.</dd>
+              <dt>User work</dt>
+              <dd>Define signature format and hashing flow.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Signed message examples and test tools.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">18</span>
+              <span>I want separate trust domains for different applications</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>Mode Control.</dd>
+              <dt>Problem</dt>
+              <dd>Different applications should not share the same secret space or unlock state.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>change-mode akm
+change-mode pm
+change-mode otp
+change-mode byo
+pin-status
+is-activated
+activate &lt;PIN&gt;
+deactivate</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use AKM, PM, OTP, and BYO as separate application domains.</dd>
+              <dt>User work</dt>
+              <dd>Decide which app uses which mode.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Mode usage policy for OEM deployments.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">19</span>
+              <span>I want operator-controlled secure actions</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>PIN / Activation.</dd>
+              <dt>Problem</dt>
+              <dd>Protected operations should only happen after explicit operator activation.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>pin-status
+activate &lt;PIN&gt;
+deactivate</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Require activation before sensitive actions and deactivate after completion.</dd>
+              <dt>User work</dt>
+              <dd>Define who knows the PIN, when activation is required, and when to deactivate.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Operator workflow design and demo scripts.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">20</span>
+              <span>I want to validate hardware random number generation</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>TRNG.</dd>
+              <dt>Problem</dt>
+              <dd>Systems may need to confirm hardware random data is available.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>trng</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use TRNG as validation or test command.</dd>
+              <dt>User work</dt>
+              <dd>Decide whether this is validation-only or part of runtime integration.</dd>
+              <dt>IIST optional service</dt>
+              <dd>RNG validation and test scripts.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">21</span>
+              <span>I want to inspect device identity and firmware information</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>Connection / Info.</dd>
+              <dt>Problem</dt>
+              <dd>Provisioning/support operators need to confirm which device is connected.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>ports
+open &lt;PORT&gt;
+info</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Run info before provisioning or support operations.</dd>
+              <dt>User work</dt>
+              <dd>Record model, product name, UID, firmware, and SESIP strings in logs.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Manufacturing test flow templates.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">22</span>
+              <span>I want to reset one application without wiping everything</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>Per-Mode Reset.</dd>
+              <dt>Problem</dt>
+              <dd>User may need to reset one function area without affecting others.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>reset-app</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Select target mode first, then reset only that mode.</dd>
+              <dt>User work</dt>
+              <dd>Define reset policy per mode.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Controlled reset scripts.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">23</span>
+              <span>I want to wipe the device for lab reset or redeployment</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>Full Reset.</dd>
+              <dt>Problem</dt>
+              <dd>Device may need cleanup before redeployment, return, or demo reset.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>reset-all
+reset-all --skip &lt;MODE&gt;</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use reset-all for full cleanup, or --skip to preserve one mode.</dd>
+              <dt>User work</dt>
+              <dd>Define what must be preserved before reset.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Wipe and reprovisioning procedure.</dd>
+            </dl>
+          </details>
+
+          <details class="scenario-card">
+            <summary>
+              <span class="menu-number">24</span>
+              <span>I want low-level debug access during integration</span>
+            </summary>
+            <dl class="scenario-details">
+              <dt>Function area</dt>
+              <dd>Debug / Raw / Verbose.</dd>
+              <dt>Problem</dt>
+              <dd>During firmware bring-up or protocol debugging, engineers may need lower-level visibility.</dd>
+              <dt>Use these functions</dt>
+              <dd><pre><code>raw &lt;HEX...&gt;
+verbose on
+verbose off</code></pre></dd>
+              <dt>Suggested integration</dt>
+              <dd>Use only during controlled engineering work.</dd>
+              <dt>User work</dt>
+              <dd>Provide logs and reproduction steps when requesting support.</dd>
+              <dt>IIST optional service</dt>
+              <dd>Verbose log analysis and low-level integration debugging.</dd>
+            </dl>
+          </details>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Function Map</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>User Goal</th>
+                <th>Suggested Ankhor Function Area</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Passwordless login</td><td>FIDO2 authentication use case, no public test tool</td></tr>
+              <tr><td>Protect database password</td><td>PM</td></tr>
+              <tr><td>Protect API token</td><td>AKM</td></tr>
+              <tr><td>Generate OTP code</td><td>OTP</td></tr>
+              <tr><td>Encrypt local config</td><td>BYO edge encryption</td></tr>
+              <tr><td>Protect local database key</td><td>BYO edge encryption</td></tr>
+              <tr><td>Sign telemetry</td><td>BYO signing</td></tr>
+              <tr><td>Sign logs</td><td>BYO signing</td></tr>
+              <tr><td>Sign AI output</td><td>BYO signing</td></tr>
+              <tr><td>Support content authenticity signing</td><td>BYO signing</td></tr>
+              <tr><td>Pair gateway and sensor</td><td>BYO pairing</td></tr>
+              <tr><td>Encrypt paired-device payload</td><td>BYO shared-slot encryption</td></tr>
+              <tr><td>Device-bound data protection</td><td>BYO edge encryption</td></tr>
+              <tr><td>Store local secret blob</td><td>BYO local secret storage</td></tr>
+              <tr><td>Remove old secrets</td><td>AKM, PM, OTP, BYO delete functions</td></tr>
+              <tr><td>Deterministic key derivation</td><td>BYO get-key</td></tr>
+              <tr><td>Verify signatures</td><td>BYO verify</td></tr>
+              <tr><td>Separate trust domains</td><td>Mode control</td></tr>
+              <tr><td>Operator-controlled secure action</td><td>PIN and activation</td></tr>
+              <tr><td>Validate random source</td><td>TRNG</td></tr>
+              <tr><td>Device identity check</td><td>info</td></tr>
+              <tr><td>Reset one app</td><td>reset-app</td></tr>
+              <tr><td>Wipe device</td><td>reset-all</td></tr>
+              <tr><td>Debug integration</td><td>raw, verbose</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Commercial Integration Note</h2>
+          <p>
+            Ankhor Key Plus provides fixed hardware-rooted functions. It is not an unlimited custom firmware product by default. Users can use the provided CLI/API functions directly, or request IIST integration support for production deployment.
+          </p>
+        </div>
+        <div class="tag-list" aria-label="IIST integration services">
+          <span class="tag">Linux integration</span>
+          <span class="tag">OpenWrt integration</span>
+          <span class="tag">Python integration examples</span>
+          <span class="tag">C integration examples</span>
+          <span class="tag">Provisioning scripts</span>
+          <span class="tag">Deprovisioning scripts</span>
+          <span class="tag">Gateway integration</span>
+          <span class="tag">Device pairing workflow design</span>
+          <span class="tag">Content authenticity signing adapter</span>
+          <span class="tag">Signed log or signed telemetry workflow</span>
+          <span class="tag">API key and database credential protection workflow</span>
+          <span class="tag">User-specific demo and validation package</span>
+          <span class="tag">OEM-branded desktop tools</span>
+          <span class="tag">Custom software for user deployment</span>
+        </div>
+        <p class="section-cta">
+          <a class="button-link" href="../contact/">Need this implemented in your product? Contact IIST for integration support.</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Copyright IIST Inc. 2026</p>
+    </footer>
+  </div>
+</body>
+</html>

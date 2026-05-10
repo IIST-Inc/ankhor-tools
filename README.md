@@ -1,21 +1,24 @@
 # ankhor-tools
 
-Static browser-based tools site for compatible IIST / Ankhor devices.
-
-This repository is structured to work as a small GitHub Pages website with a homepage and individual tool pages.
+Static browser-based tools and documentation site for compatible IIST / Ankhor devices.
 
 Current site structure:
 
-- `index.html` - site homepage and tool navigation
-- `style.css` - shared site styling
-- `product-verification/` - first live tool page with a minimal WebSerial-based product verification utility
+- `index.html` - menu-style homepage
+- `style.css` - shared styling
+- `resources/` - logos and replaceable illustration assets
+- `product-verification/` - stable WebSerial-based product verification utility
+- `scenarios/` - Ankhor Key Plus application scenario cookbook
+- `command-reference/` - command family reference for CLI/API integrations
+- `downloads/` - future packaged desktop tools and user software
+- `contact/` - integration support contact page
 
-Planned future tool areas:
+Important:
 
-- FIDO2 Check
-- C2PA Tools
-- Key Pairing
+The product-verification tool is intentionally narrow. It connects to supported devices over WebSerial and exposes only Get Info and TRNG in the public page.
 
-Everything is kept static so it can be hosted directly from GitHub Pages without a build step.
+FIDO2/MDS policy:
 
-The current `product-verification/` tool is intentionally narrow: it connects to supported devices over WebSerial, then exposes only `Get Info` and `TRNG` in the public page.
+FIDO2 testing is currently handled by an external WebAuthn.io link from the homepage. This repository does not publish its own FIDO2 testing page, WebAuthn testing page, or MDS lookup tooling on this branch at this time. The `fidotest` branch must remain unmerged until the device is officially listed and approved for public metadata-related testing.
+
+Everything is static and can be hosted directly from GitHub Pages without a build step.

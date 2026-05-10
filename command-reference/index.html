@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Reference | Ankhor Tools</title>
+  <meta
+    name="description"
+    content="Shared command families for Ankhor / SASE CLI and API integrations."
+  >
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="site-shell tool-page">
+    <a class="back-link" href="../">Back to Ankhor Tools</a>
+
+    <header class="site-header">
+      <div class="brand-block">
+        <p class="eyebrow">Engineer Reference</p>
+        <h1>Command Reference</h1>
+        <p class="subtitle">Shared command families for Ankhor / SASE CLI and API integrations.</p>
+      </div>
+      <div class="site-logo">
+        <img src="../resources/logo.png" alt="Ankhor logo">
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="callout">
+          <strong>Most user integrations should start from the scenario cookbook.</strong>
+          <p>This page is for engineers who need command-level details.</p>
+        </div>
+      </section>
+
+      <section class="section command-section">
+        <h2>Connection and Session</h2>
+        <pre><code>ports
+open [--force] [--no-lock] &lt;PORT&gt; [BAUD]
+info
+trng
+secure
+raw &lt;HEX...&gt;
+verbose on|off
+clear
+help
+quit / exit</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>Mode and Application Control</h2>
+        <pre><code>check-mode
+change-mode &lt;akm|pm|otp|byo&gt;
+is-activated
+pin-status
+set-pin &lt;PIN&gt;
+change-pin &lt;OLD&gt; &lt;NEW&gt;
+activate &lt;PIN&gt;
+deactivate
+reset-app
+reset-all [--skip &lt;MODE&gt; ...]</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>API Key Manager / AKM</h2>
+        <pre><code>akm list
+akm add -t &lt;Title&gt; --key &lt;API Key&gt;
+akm get -t &lt;Title&gt;
+akm del -t &lt;Title&gt;</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>Password / Credential Manager / PM</h2>
+        <pre><code>pm list
+pm add -t &lt;Title&gt; -n &lt;Name&gt; --password &lt;Password&gt;
+pm get -t &lt;Title&gt; -n &lt;Name&gt;
+pm del -t &lt;Title&gt; -n &lt;Name&gt;</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>OTP Manager</h2>
+        <pre><code>otp list
+otp add --len &lt;6..8&gt; --ts &lt;5..90&gt; -t &lt;Title&gt; -n &lt;Name&gt; --secret "AA BB ..."
+otp get -t &lt;Title&gt; -n &lt;Name&gt;
+otp del -t &lt;Title&gt; -n &lt;Name&gt;</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>BYO Shared-Key Slots / Pairing</h2>
+        <pre><code>byo status
+byo gen --idx &lt;0..7&gt; --pub &lt;Hex64&gt;
+byo del --idx &lt;0..7&gt;
+byo pair-init
+byo pair --idx &lt;0..7&gt; --peer &lt;Hex64&gt;</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>BYO Shared-Slot Encryption</h2>
+        <pre><code>byo set-iv --iv &lt;Hex16&gt;
+byo enc --idx &lt;0..7&gt; --pt &lt;Hex32&gt;
+byo dec --idx &lt;0..7&gt; --ct &lt;Hex32&gt;
+byo get-key --seed &lt;ASCII&gt;</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>BYO Edge-Key Encryption</h2>
+        <pre><code>byo edge-enc --pt &lt;Hex32&gt;
+byo edge-dec --ct &lt;Hex32&gt;</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>BYO Local Secret Storage</h2>
+        <pre><code>byo secret-status
+byo save --idx &lt;0..3&gt; --data &lt;Hex&gt;
+byo read --idx &lt;0..3&gt;
+byo del-secret --idx &lt;0..3&gt;</code></pre>
+      </section>
+
+      <section class="section command-section">
+        <h2>BYO Signing and Verification</h2>
+        <pre><code>byo sign-status
+byo sign-gen --idx &lt;0..7&gt;
+byo sign-del --idx &lt;0..7&gt;
+byo sign --idx &lt;0..7&gt; --msg &lt;Hex32&gt;
+byo verify --idx &lt;0..7&gt; --msg &lt;Hex32&gt; --sig &lt;Hex64&gt;
+byo get-verify-key --idx &lt;0..7&gt;</code></pre>
+      </section>
+
+      <section class="section">
+        <p class="section-cta">
+          <a class="button-link" href="../scenarios/">Open the scenario cookbook</a>
+          <a class="button-link secondary" href="../contact/">Need this implemented in your product? Contact IIST for integration support.</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Copyright IIST Inc. 2026</p>
+    </footer>
+  </div>
+</body>
+</html>

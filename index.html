@@ -6,11 +6,8 @@
   <title>Ankhor Tools</title>
   <meta
     name="description"
-    content="Ankhor Tools is a browser-based utility site for compatible IIST / Ankhor devices."
+    content="Public tools, product information, and integration guides for compatible IIST / Ankhor devices."
   >
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,6 +16,9 @@
       <div class="brand-block">
         <p class="eyebrow">Browser-Based Utilities</p>
         <h1>Ankhor Tools</h1>
+        <p class="subtitle">
+          Public tools, product information, and integration guides for compatible IIST / Ankhor devices.
+        </p>
       </div>
       <div class="site-logo">
         <img src="resources/logo.png" alt="Ankhor logo">
@@ -28,41 +28,105 @@
     <main>
       <section class="section">
         <div class="section-heading">
-          <h2>Compatible Devices</h2>
+          <h2>Tools and Guides</h2>
+          <p>Select the product check page, integration guide, command reference, downloads area, or support contact page.</p>
         </div>
 
-        <div class="compat-list" aria-label="Compatible devices">
-          <span class="compat-item">Ankhor Key</span>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="tool-grid">
-          <a class="tool-card is-active" href="product-verification/">
-            <div class="tool-card-header">
-              <h3>Product Verification</h3>
+        <div class="menu-group-list" aria-label="Ankhor Tools menu">
+          <section class="menu-category" aria-labelledby="product-test-heading">
+            <div class="menu-category-heading">
+              <h3 id="product-test-heading">Product Test &amp; Verification</h3>
             </div>
-            <p>
-              Connect to a compatible device, confirm connection status, read device info, and request TRNG output.
-            </p>
-            <span class="tool-link">Open tool</span>
-          </a>
 
-          <a
-            class="tool-card is-active"
-            href="https://webauthn.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div class="tool-card-header">
-              <h3>FIDO2 Test via WebAuthn.io</h3>
+            <div class="tool-grid menu-grid">
+              <a class="tool-card menu-card is-active" href="product-verification/">
+                <div class="tool-card-header">
+                  <span class="menu-number">01</span>
+                  <h4>Product Verification</h4>
+                </div>
+                <p>
+                  Connect to a compatible Ankhor device, confirm connection status, read device information, and request TRNG output.
+                </p>
+                <span class="tool-link">Open verification tool</span>
+              </a>
+
+              <a
+                class="tool-card menu-card is-active"
+                href="https://webauthn.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div class="tool-card-header">
+                  <span class="menu-number">02</span>
+                  <h4>FIDO2 Test via WebAuthn.io</h4>
+                </div>
+                <p>
+                  Open the external WebAuthn.io browser test site for FIDO2 registration and authentication trials.
+                </p>
+                <span class="tool-link">Open external site</span>
+              </a>
             </div>
-            <p>
-              Use <b>webauthn.io</b> for direct FIDO2 and WebAuthn registration and authentication testing in the browser.
-            </p>
-            <span class="tool-link">Open site</span>
-          </a>
-          
+          </section>
+
+          <section class="menu-category" aria-labelledby="scenario-reference-heading">
+            <div class="menu-category-heading">
+              <h3 id="scenario-reference-heading">Scenario &amp; Command References</h3>
+            </div>
+
+            <div class="tool-grid menu-grid">
+              <a class="tool-card menu-card is-active" href="scenarios/">
+                <div class="tool-card-header">
+                  <span class="menu-number">03</span>
+                  <h4>What Can I Do With Ankhor Key Plus?</h4>
+                </div>
+                <p>
+                  Browse practical application scenarios and see which Ankhor functions apply to database credentials, API keys, OTP, signing, encryption, local secrets, and device trust workflows.
+                </p>
+                <span class="tool-link">View scenarios</span>
+              </a>
+
+              <a class="tool-card menu-card is-active" href="command-reference/">
+                <div class="tool-card-header">
+                  <span class="menu-number">04</span>
+                  <h4>Command Reference</h4>
+                </div>
+                <p>
+                  Review the CLI/API command families for connection, modes, activation, API key storage, password storage, OTP, BYO encryption, signing, pairing, and local secret storage.
+                </p>
+                <span class="tool-link">Open reference</span>
+              </a>
+            </div>
+          </section>
+
+          <section class="menu-category" aria-labelledby="downloads-contact-heading">
+            <div class="menu-category-heading">
+              <h3 id="downloads-contact-heading">Downloads &amp; Contact</h3>
+            </div>
+
+            <div class="tool-grid menu-grid">
+              <a class="tool-card menu-card is-active" href="downloads/">
+                <div class="tool-card-header">
+                  <span class="menu-number">05</span>
+                  <h4>Downloads</h4>
+                </div>
+                <p>
+                  Desktop software and packaged tools for password, key, credential, and device management. Consumer-style tools will be posted here when available.
+                </p>
+                <span class="tool-link">View downloads</span>
+              </a>
+
+              <a class="tool-card menu-card is-active" href="contact/">
+                <div class="tool-card-header">
+                  <span class="menu-number">06</span>
+                  <h4>Contact IIST</h4>
+                </div>
+                <p>
+                  Request integration support, OEM software, custom workflows, provisioning scripts, or a custom version for your product.
+                </p>
+                <span class="tool-link">Contact support</span>
+              </a>
+            </div>
+          </section>
         </div>
       </section>
     </main>
