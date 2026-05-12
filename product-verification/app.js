@@ -349,6 +349,27 @@ const statusPill = document.getElementById("status-pill");
 const output = document.getElementById("output");
 
 const verifier = new AnkhorVerifier();
+let lastOutputSource = "";
+
+function t(source) {
+  return window.AnkhorI18n?.t(source) || source;
+}
+
+function translateOutput(source) {
+  if (Array.isArray(source)) {
+    return source.map((line) => translateOutput(line)).join("\n");
+  }
+  if (source && typeof source === "object") {
+    return [
+      `${t("Model")}: ${source.model}`,
+      `${t("Name")}: ${source.name}`,
+      `UID: ${source.uid}`,
+      `FW: ${source.fw}`,
+      `SESIP: ${source.sesip}`,
+    ].join("\n");
+  }
+  return t(source);
+}
 
 function setBusy(busy) {
   connectBtn.disabled = busy || verifier.connected;
@@ -358,7 +379,8 @@ function setBusy(busy) {
 }
 
 function onConnectionChanged(connected) {
-  statusPill.textContent = connected ? "Connected" : "Disconnected";
+  statusPill.dataset.statusSource = connected ? "Connected" : "Disconnected";
+  statusPill.textContent = t(statusPill.dataset.statusSource);
   statusPill.classList.toggle("pill-on", connected);
   statusPill.classList.toggle("pill-off", !connected);
   connectBtn.disabled = connected;
@@ -367,8 +389,9 @@ function onConnectionChanged(connected) {
   trngBtn.disabled = !connected;
 }
 
-function showText(text) {
-  output.value = text;
+function showText(source) {
+  lastOutputSource = source;
+  output.value = translateOutput(source);
 }
 
 connectBtn.addEventListener("click", async () => {
@@ -376,7 +399,7 @@ connectBtn.addEventListener("click", async () => {
   try {
     const { port } = await verifier.connect(filterCheckbox.checked);
     onConnectionChanged(true);
-    showText(["Port opened.", getPortLabel(port)].join("\n"));
+    showText(["Port opened.", getPortLabel(port)]);
   } catch (error) {
     onConnectionChanged(false);
     showText(error?.message || String(error));
@@ -402,13 +425,7 @@ infoBtn.addEventListener("click", async () => {
   setBusy(true);
   try {
     const info = await verifier.getInfo();
-    showText([
-      `Model: ${info.model}`,
-      `Name: ${info.name}`,
-      `UID: ${info.uid}`,
-      `FW: ${info.fw}`,
-      `SESIP: ${info.sesip}`,
-    ].join("\n"));
+    showText(info);
   } catch (error) {
     showText(error?.message || String(error));
   } finally {
@@ -443,6 +460,13 @@ window.addEventListener("beforeunload", () => {
 });
 
 onConnectionChanged(false);
+
+window.addEventListener("ankhor-language-change", () => {
+  onConnectionChanged(verifier.connected);
+  if (lastOutputSource) {
+    output.value = translateOutput(lastOutputSource);
+  }
+});
 
 if (!("serial" in navigator)) {
   connectBtn.disabled = true;
