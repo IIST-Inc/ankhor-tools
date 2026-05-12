@@ -30,5 +30,6 @@ The site uses a local copy of the web UI toolkit CSS and required assets under `
 - `resources/liquid-glass.css`
 - `resources/background-light2.png`
 - `resources/checkmark-white.svg`
+- `resources/icons/` selected Phosphor SVG icons used by headings, links, tags, and tool buttons
 
 Do not reference the sibling `../UI_toolkit` repository at runtime. Copy any needed toolkit updates into this repository so `ankhor-tools` remains standalone.

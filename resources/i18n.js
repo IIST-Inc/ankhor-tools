@@ -125,6 +125,11 @@
       ja: "ダウンロード",
       fr: "Téléchargements",
     },
+    "Downloads will be posted here when available.": {
+      "zh-TW": "下載內容可用時會發布於此。",
+      ja: "ダウンロードは準備ができ次第ここに掲載します。",
+      fr: "Les téléchargements seront publiés ici lorsqu'ils seront disponibles.",
+    },
     "Desktop software and packaged tools for password, key, credential, and device management. Consumer-style tools will be posted here when available.": {
       "zh-TW": "用於密碼、金鑰、憑證與裝置管理的桌面軟體與封裝工具。消費者型工具可用時會發布於此。",
       ja: "パスワード、キー、認証情報、デバイス管理向けのデスクトップソフトウェアとパッケージツールです。一般ユーザー向けツールは準備ができ次第ここに掲載します。",

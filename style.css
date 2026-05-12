@@ -3,6 +3,22 @@
 :root {
   color-scheme: light;
   --ankhor-max-width: 1080px;
+  --icon-arrow-right: url("resources/icons/arrow-circle-right.svg");
+  --icon-book: url("resources/icons/book-open-text.svg");
+  --icon-check: url("resources/icons/check-circle.svg");
+  --icon-database: url("resources/icons/database.svg");
+  --icon-download: url("resources/icons/download-simple.svg");
+  --icon-envelope: url("resources/icons/envelope-simple.svg");
+  --icon-fingerprint: url("resources/icons/fingerprint.svg");
+  --icon-globe: url("resources/icons/globe-simple.svg");
+  --icon-info: url("resources/icons/info.svg");
+  --icon-key: url("resources/icons/key.svg");
+  --icon-list: url("resources/icons/list-checks.svg");
+  --icon-package: url("resources/icons/package.svg");
+  --icon-shield: url("resources/icons/shield-check.svg");
+  --icon-terminal: url("resources/icons/terminal-window.svg");
+  --icon-translate: url("resources/icons/translate.svg");
+  --icon-wrench: url("resources/icons/wrench.svg");
 }
 
 body {
@@ -106,6 +122,18 @@ main {
   box-shadow: var(--lg-shadow);
 }
 
+.language-control::before {
+  --local-icon: var(--icon-translate);
+  content: "";
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  background: currentColor;
+  opacity: 0.86;
+  -webkit-mask: var(--local-icon) center / contain no-repeat;
+  mask: var(--local-icon) center / contain no-repeat;
+}
+
 .language-control select {
   min-width: 128px;
   min-height: 30px;
@@ -152,6 +180,96 @@ h4 {
   margin: 0;
   color: var(--lg-text-primary);
   line-height: 1.18;
+}
+
+.site-header h1,
+.section-heading h2,
+.command-section h2,
+.menu-category-heading h3,
+.tool-card h4,
+.visual-card h3,
+.mini-card h3,
+.status-banner h2,
+.callout strong {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.site-header h1::before,
+.section-heading h2::before,
+.command-section h2::before,
+.menu-category-heading h3::before,
+.tool-card h4::before,
+.visual-card h3::before,
+.mini-card h3::before,
+.status-banner h2::before,
+.callout strong::before {
+  --local-icon: var(--icon-check);
+  content: "";
+  width: 21px;
+  height: 21px;
+  flex: 0 0 auto;
+  background: currentColor;
+  opacity: 0.88;
+  -webkit-mask: var(--local-icon) center / contain no-repeat;
+  mask: var(--local-icon) center / contain no-repeat;
+}
+
+.site-header h1::before {
+  --local-icon: var(--icon-shield);
+  width: 28px;
+  height: 28px;
+}
+
+.section-heading h2::before,
+.menu-category-heading h3::before {
+  --local-icon: var(--icon-list);
+}
+
+#product-test-heading::before {
+  --local-icon: var(--icon-shield);
+}
+
+#scenario-reference-heading::before {
+  --local-icon: var(--icon-book);
+}
+
+#downloads-contact-heading::before {
+  --local-icon: var(--icon-envelope);
+}
+
+.command-section h2::before {
+  --local-icon: var(--icon-terminal);
+}
+
+.visual-card h3::before {
+  --local-icon: var(--icon-key);
+}
+
+.visual-card:nth-child(2) h3::before {
+  --local-icon: var(--icon-database, var(--icon-key));
+}
+
+.visual-card:nth-child(3) h3::before {
+  --local-icon: var(--icon-shield);
+}
+
+.visual-card:nth-child(4) h3::before {
+  --local-icon: var(--icon-globe);
+}
+
+.visual-card:nth-child(5) h3::before {
+  --local-icon: var(--icon-wrench);
+}
+
+.mini-card h3::before {
+  --local-icon: var(--icon-package);
+}
+
+.status-banner h2::before,
+.callout strong::before {
+  --local-icon: var(--icon-info);
 }
 
 h1 {
@@ -271,14 +389,56 @@ h4 {
   gap: 12px;
 }
 
+.tool-card[href*="product-verification"] h4::before {
+  --local-icon: var(--icon-shield);
+}
+
+.tool-card[href*="webauthn"] h4::before {
+  --local-icon: var(--icon-fingerprint);
+}
+
+.tool-card[href*="scenarios"] h4::before {
+  --local-icon: var(--icon-book);
+}
+
+.tool-card[href*="command-reference"] h4::before {
+  --local-icon: var(--icon-terminal);
+}
+
+.tool-card[href*="downloads"] h4::before {
+  --local-icon: var(--icon-download);
+}
+
+.download-card h4::before {
+  --local-icon: var(--icon-download);
+}
+
+.tool-card[href*="contact"] h4::before {
+  --local-icon: var(--icon-envelope);
+}
+
 .tool-card p {
   margin: 0;
 }
 
 .tool-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   margin-top: auto;
   color: rgba(37, 99, 235, 0.88);
   font-weight: 700;
+}
+
+.tool-link::before {
+  --local-icon: var(--icon-arrow-right);
+  content: "";
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  background: currentColor;
+  -webkit-mask: var(--local-icon) center / contain no-repeat;
+  mask: var(--local-icon) center / contain no-repeat;
 }
 
 .menu-number {
@@ -457,6 +617,7 @@ tr:last-child td {
 .compat-item {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   width: fit-content;
   min-height: 28px;
   padding: 4px 12px;
@@ -466,6 +627,19 @@ tr:last-child td {
   color: rgba(30, 41, 59, 0.88);
   font-size: 12px;
   font-weight: 700;
+}
+
+.tag::before,
+.compat-item::before {
+  --local-icon: var(--icon-check);
+  content: "";
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  background: currentColor;
+  opacity: 0.78;
+  -webkit-mask: var(--local-icon) center / contain no-repeat;
+  mask: var(--local-icon) center / contain no-repeat;
 }
 
 .section-cta {
@@ -497,6 +671,26 @@ tr:last-child td {
     transform 140ms ease;
 }
 
+.button-link::before {
+  --local-icon: var(--icon-arrow-right);
+  content: "";
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  background: currentColor;
+  -webkit-mask: var(--local-icon) center / contain no-repeat;
+  mask: var(--local-icon) center / contain no-repeat;
+}
+
+.button-link[href*="contact"]::before,
+.button-link[href^="mailto:"]::before {
+  --local-icon: var(--icon-envelope);
+}
+
+.button-link[href*="scenarios"]::before {
+  --local-icon: var(--icon-book);
+}
+
 .button-link.secondary {
   background: rgba(255, 255, 255, 0.42);
   color: var(--lg-text-primary);
@@ -526,8 +720,21 @@ tr:last-child td {
   background: url("resources/arrow-circle-left.svg") center / contain no-repeat;
 }
 
-.disabled-card {
+.disabled-card,
+.tool-card[aria-disabled="true"] {
   opacity: 0.82;
+  cursor: default;
+}
+
+.tool-card[aria-disabled="true"]:hover,
+.tool-card[aria-disabled="true"]:focus-visible {
+  background: linear-gradient(180deg, var(--lg-elevated-top), var(--lg-elevated-bottom));
+  border-color: var(--lg-elevated-border);
+  transform: none;
+}
+
+.coming-soon-label {
+  color: var(--lg-text-secondary);
 }
 
 .site-footer {
