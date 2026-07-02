@@ -9,6 +9,9 @@ const INFO_FRAME = Uint8Array.from([0x00, 0x00, 0xff, 0x02, 0xfe, 0xd4, 0x00, 0x
 const TRNG_FRAME = Uint8Array.from([0x00, 0x00, 0xff, 0x02, 0xfe, 0xd4, 0x01, 0x2b, 0x00]);
 
 const textDecoder = new TextDecoder();
+const INFO_TEXT_MAX_BYTES = 32;
+const INFO_UID_BYTES = 32;
+const INFO_FW_BYTES = 3;
 
 function bytesToHex(buf, spaced = true) {
   return Array.from(buf, (value) => value.toString(16).padStart(2, "0").toUpperCase()).join(spaced ? " " : "");
@@ -56,29 +59,127 @@ function readCString(buf, offset) {
   return cleanText(textDecoder.decode(buf.slice(offset, end)));
 }
 
-function parseDeviceInfo(rsp) {
-  if (rsp.length < 2 || rsp[0] !== 0x00 || rsp[1] !== 0x00) {
-    throw new Error("device info failed");
+function zeroFilled(buf, start, end) {
+  for (let i = start; i < end; i += 1) {
+    if (buf[i] !== 0) return false;
+  }
+  return true;
+}
+
+function likelyTextBytes(buf) {
+  for (const value of buf) {
+    if (value === 0x00 || value === 0x09 || value === 0x0a || value === 0x0d) continue;
+    if (value < 0x20 || value > 0x7e) return false;
+  }
+  return true;
+}
+
+function decodeInfoText(buf, start, end) {
+  const nul = buf.indexOf(0, start);
+  const textEnd = nul !== -1 && nul < end ? nul : end;
+  return cleanText(textDecoder.decode(buf.slice(start, textEnd)));
+}
+
+function addInfoTextCandidate(candidates, next, text, score) {
+  if (candidates.some((candidate) => candidate.next === next && candidate.text === text)) return;
+  candidates.push({ next, text, score });
+}
+
+function infoTextCandidates(buf, offset) {
+  const candidates = [];
+  const maxEnd = offset + INFO_TEXT_MAX_BYTES;
+  if (offset >= buf.length) return candidates;
+
+  const limit = Math.min(maxEnd, buf.length);
+  const nul = buf.indexOf(0, offset);
+
+  if (nul !== -1 && nul < limit) {
+    const text = decodeInfoText(buf, offset, nul);
+    addInfoTextCandidate(candidates, nul + 1, text, 4);
+
+    if (maxEnd <= buf.length && zeroFilled(buf, nul, maxEnd)) {
+      addInfoTextCandidate(candidates, maxEnd, text, 3);
+    }
   }
 
+  if (maxEnd <= buf.length) {
+    addInfoTextCandidate(candidates, maxEnd, decodeInfoText(buf, offset, maxEnd), 1);
+  }
+
+  return candidates;
+}
+
+function parseLegacyDeviceInfo(rsp) {
   const payload = rsp.slice(2);
   const modelLen = payload.length === 100 ? 17 : payload.length === 97 ? 14 : 0;
-  if (!modelLen || rsp.length < 2 + modelLen + 32 + 32 + 3) {
-    throw new Error("device info parse failed");
+  if (!modelLen || rsp.length < 2 + modelLen + INFO_TEXT_MAX_BYTES + INFO_UID_BYTES + INFO_FW_BYTES) {
+    return null;
   }
 
   let offset = 2;
   const model = cleanText(textDecoder.decode(rsp.slice(offset, offset + modelLen)));
   offset += modelLen;
   const name = readCString(rsp, offset);
-  offset += 32;
-  const uid = bytesToHex(rsp.slice(offset, offset + 32), false).toLowerCase();
-  offset += 32;
+  offset += INFO_TEXT_MAX_BYTES;
+  const uid = bytesToHex(rsp.slice(offset, offset + INFO_UID_BYTES), false).toLowerCase();
+  offset += INFO_UID_BYTES;
   const fw = `${rsp[offset]}.${rsp[offset + 1]}.${rsp[offset + 2]}`;
-  offset += 3;
+  offset += INFO_FW_BYTES;
   const sesip = cleanText(textDecoder.decode(rsp.slice(offset)));
 
   return { model, name, uid, fw, sesip };
+}
+
+function parseDeviceInfo(rsp) {
+  if (rsp.length < 2 || rsp[0] !== 0x00 || rsp[1] !== 0x00) {
+    throw new Error("device info failed");
+  }
+
+  const parsed = [];
+
+  for (const model of infoTextCandidates(rsp, 2)) {
+    for (const name of infoTextCandidates(rsp, model.next)) {
+      let offset = name.next;
+      if (rsp.length < offset + INFO_UID_BYTES + INFO_FW_BYTES) continue;
+
+      const uidBytes = rsp.slice(offset, offset + INFO_UID_BYTES);
+      offset += INFO_UID_BYTES;
+
+      const fwBytes = rsp.slice(offset, offset + INFO_FW_BYTES);
+      offset += INFO_FW_BYTES;
+
+      const sesipBytes = rsp.slice(offset);
+      if (!likelyTextBytes(sesipBytes)) continue;
+
+      const sesip = cleanText(textDecoder.decode(sesipBytes));
+      let score = model.score + name.score;
+      if (model.text) score += 2;
+      if (name.text) score += 2;
+      if (fwBytes.every((value) => value <= 99)) score += 2;
+      if (sesip) score += 1;
+      if (/sesip/i.test(sesip)) score += 2;
+
+      parsed.push({
+        score,
+        info: {
+          model: model.text,
+          name: name.text,
+          uid: bytesToHex(uidBytes, false).toLowerCase(),
+          fw: `${fwBytes[0]}.${fwBytes[1]}.${fwBytes[2]}`,
+          sesip,
+        },
+      });
+    }
+  }
+
+  if (!parsed.length) {
+    const legacyInfo = parseLegacyDeviceInfo(rsp);
+    if (legacyInfo) return legacyInfo;
+    throw new Error("device info parse failed");
+  }
+
+  parsed.sort((a, b) => b.score - a.score);
+  return parsed[0].info;
 }
 
 class AnkhorVerifier {
